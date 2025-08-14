@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-producer
+  labels:
+    app: rabbitmq-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-producer
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-producer
+    spec:
+      containers:
+      - name: producer
+        image: python:3.10-slim
+        command: ["python"]
+        args: ["/app/producer.py"]
+        volumeMounts:
+          - name: producer-code
+            mountPath: /app
+      volumes:
+        - name: producer-code
+          configMap:
+            name: producer-code

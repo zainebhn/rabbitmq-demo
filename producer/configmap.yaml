@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: producer-code
+data:
+  producer.py: |
+    import pika
+    import time
+
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters('rabbitmq', 5672)
+    )
+    channel = connection.channel()
+    channel.queue_declare(queue='demo-queue')
+
+    while True:
+        channel.basic_publish(exchange='', routing_key='demo-queue', body='Hello from producer!')
+        print(" [x] Sent 'Hello from producer!'")
+        time.sleep(5)
