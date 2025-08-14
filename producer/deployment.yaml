@@ -20,9 +20,10 @@ spec:
         command: ["python"]
         args: ["/app/producer.py"]
         volumeMounts:
-          - name: producer-code
-            mountPath: /app
-      volumes:
         - name: producer-code
-          configMap:
-            name: producer-code
+          mountPath: /app
+      volumes:
+      - name: producer-code
+        configMap:
+          name: producer-code
+
